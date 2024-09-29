@@ -42,7 +42,22 @@ class MinMaxScaler:
 class StandardScaler:
     def __init__(self):
         self.mean = None
-        raise NotImplementedError
+        self.std = None
+        
+    def fit(self, X):
+        X = np.asarray(X)
+        self.mean = np.mean(X, axis=0)
+        self.std = np.std(X, axis=0)
+        return self
+
+    def transform(self, X):
+        X = np.asarray(X)
+        return (X - self.mean) / self.std
+
+    def fit_transform(self, X):
+        self.fit(X)
+        return self.transform(X)
+
 
 
 class LabelEncoder:
