@@ -62,6 +62,24 @@ class TestFeatures(TestCase):
         assert (result == expected).all(), "Scaler transform does not return expected values. Expect {}. Got: {}".format(expected.reshape(1,-1), result.reshape(1,-1))
 
     # TODO: Add a test of your own below this line
+    def test_label_encoder():
+        encoder = LabelEncoder()
+        data = ["paris", "paris", "tokyo", "amsterdam"]
+        encoder.fit(data)
+        assert (encoder.classes_ == np.array(['amsterdam', 'paris', 'tokyo'])).all(), f"Classes do not match expected values."
     
+        transformed = encoder.transform(["tokyo", "paris", "paris"])
+        expected_transformed = np.array([2, 1, 1])
+        assert (transformed == expected_transformed).all(), f"Transformed values do not match. Got {transformed}, expected {expected_transformed}"
+
+    def test_label_encoder_fit_transform():
+        encoder = LabelEncoder()
+        data = ["red", "blue", "green", "blue", "red", "green"]
+        transformed = encoder.fit_transform(data)
+        expected_transformed = np.array([2, 0, 1, 0, 2, 1])
+        assert (transformed == expected_transformed).all(), f"Fit-transform values do not match. Got {transformed}, expected {expected_transformed}"
+
+
+
 if __name__ == '__main__':
     unittest.main()
