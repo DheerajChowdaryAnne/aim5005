@@ -43,3 +43,27 @@ class StandardScaler:
     def __init__(self):
         self.mean = None
         raise NotImplementedError
+
+
+class LabelEncoder:
+    def __init__(self):
+        # Initialize an empty array for storing classes
+        self.classes_ = None
+    
+    def fit(self, y):
+        # Convert y to a numpy array and find unique values (sorted)
+        y = np.array(y)
+        self.classes_ = np.unique(y)
+        return self
+    
+    def transform(self, y):
+        y = np.array(y)
+        if self.classes_ is None:
+            raise ValueError("LabelEncoder not fitted. Please call `fit` before `transform`.")
+        
+        # Find the indices of the values in y in the classes_ array
+        return np.array([np.where(self.classes_ == label)[0][0] for label in y])
+    
+    def fit_transform(self, y):
+        self.fit(y)
+        return self.transform(y)
