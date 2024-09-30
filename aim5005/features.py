@@ -46,15 +46,15 @@ class StandardScaler:
         
     def _check_is_array(self, x: np.ndarray) -> np.ndarray:
         if not isinstance(x, np.ndarray):
-            x = np.array(x)  
-        assert isinstance(x, np.ndarray) 
+            x = np.array(x)
+        assert isinstance(x, np.ndarray), "Expected the input to be a np.ndarray"
         return x
         
     def fit(self, x: np.ndarray) -> 'StandardScaler':
         x = self._check_is_array(x)
-        self.mean = x.mean(axis=0)
-        self.std = x.std(axis=0, ddof=0)
-        return self  
+        self.mean = np.mean(x, axis=0)
+        self.std = np.std(x, axis=0, ddof=0)
+        return self
         
     def transform(self, x: np.ndarray) -> np.ndarray:
         x = self._check_is_array(x)
